@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>JavaScript RSA Encryption</title>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="jsencrypt.js"></script>
+    <script type="text/javascript">
+
+      // Call this code when the page is done loading.
+      $(function() {
+
+        // Run a quick encryption/decryption when they click.
+        $('#testme').click(function() {
+
+          // Encrypt with the public key...
+          var encrypt = new JSEncrypt();
+          encrypt.setPublicKey($('#pubkey').val());
+          var encrypted = encrypt.encrypt($('#input').val());
+          console.log(encrypted);
+
+          var http = new XMLHttpRequest();
+          var url = '/rsaasencryption';
+          http.open('POST', url, true);
+          //Send the proper header information along with the request
+          http.setRequestHeader('Content-type', 'plain/text');
+          http.onreadystatechange = function() {//Call a function when the state changes.
+                if(http.readyState == 4 && http.status == 200) {
+                    alert(http.responseText);
+                }
+          }
+          http.send(encrypted);
+
+
+
+        });
+      });
+    </script>
+
+
+    <script type="text/javascript">
+    var encryptedAES = CryptoJS.AES.encrypt("Milind", "My Secret Passphrase");
+
+     alert("AES: "+encryptedAES);
+    </script>
+</head>
+<body>
+<textarea hidden="true" id="pubkey" rows="15" cols="65">-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCypMVMvRrg3Hs2XMCyucXR9Fmm
+e432F5IhUsuNJp5UTsuNgafOr58ys7DC8u+kgIQVJlXXk0Cjt3Slm9+4IjrYOoUM
+hpM2+5FGRqdkejiFgX9kXysbsgXzv9mGrdxiSz2RE67brMOAFS0F8PenjMnhC2O7
+6bwWCF5yX6VvN9FPkQIDAQAB
+-----END PUBLIC KEY-----</textarea><br/>
+<label for="input">Text to encrypt (Based on Asymmetric RSA Encryption with 1024 bit Key):</label><br/>
+<textarea id="input" name="input" type="text" rows=4 cols=70></textarea><br/>
+<input id="testme" type="button" value="Submit" /><br/>
+</body>
+</html>

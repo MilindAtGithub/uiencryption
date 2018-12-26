@@ -1,0 +1,9 @@
+server:
+  port: 9123
+app:
+  private:
+    key:
+      path: /Users/tavant/milind/mycode/asymetricencryption/private_key.der
+  public:
+    key:
+      path: /Users/tavant/milind/mycode/asymetricencryption/public_key.der
